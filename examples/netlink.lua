@@ -4,7 +4,7 @@ local nl = require"netlink"
 local I = require"inspect".inspect
 
 print(string.format("All known netlink groups: %s",
-			table.concat(nl.listall(), ", ")))
+			table.concat(nl.groups(), ", ")))
 
 local nls = nl.socket()
 

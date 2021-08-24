@@ -282,7 +282,7 @@ static int netlink_socket(lua_State *L)
 /* Returns an array of all known rtmgrp members like
  * "ifaddr", "link", "route", "arp"
  */
-static int netlink_listall(lua_State *L)
+static int netlink_groups(lua_State *L)
 {
 	struct rtmgrp *rtmgrp;
 	int i = 1;
@@ -307,7 +307,7 @@ static int userdata_gc(lua_State *L)
 static const struct luaL_Reg netlink_functions[] = {
 	{ "socket", netlink_socket },
 	{ "ethtool", netlink_ethtool },
-	{ "listall", netlink_listall },
+	{ "groups", netlink_groups },
 	{ NULL, NULL }
 };
 
