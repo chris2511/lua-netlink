@@ -1,10 +1,10 @@
 #!/usr/bin/env lua
 
-nl = require"netlink"
-I = require"inspect".inspect
+local nl = require"netlink"
+local I = require"inspect".inspect
 
 if #arg < 1 then
-  print(string.format("usage: %s <interface", arg[0]))
+  print(string.format("usage: %s <interface>", arg[0]))
   os.exit(1)
 end
 
