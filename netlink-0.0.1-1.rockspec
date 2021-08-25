@@ -1,7 +1,8 @@
 package = "netlink"
 version = "0.0.1-1"
 source = {
-   url = ""
+   url = "git://github.com/chris2511/lua-netlink",
+   tag = "v0.0.1"
 }
 description = {
    summary = "Netlink event library",
@@ -11,7 +12,7 @@ description = {
       and runs a lua callback function with a table as argument
       for each event
    ]],
-   homepage = "http://...", -- We don't have one yet
+   homepage = "https://github.com/chris2511/lua-netlink",
    license = "MIT"
 }
 dependencies = {
