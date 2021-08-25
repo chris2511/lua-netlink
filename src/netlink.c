@@ -224,15 +224,6 @@ static int nlfunc_poll(lua_State *L)
 	return 1;
 }
 
-static const struct luaL_Reg mnl_socket_functions[] = {
-	{ "fd", nlfunc_fd },
-	{ "event", nlfunc_event },
-	{ "query", nlfunc_query },
-	{ "groups", nlfunc_groups },
-	{ "poll", nlfunc_poll },
-	{ NULL, NULL }
-};
-
 /* Create a new "netlink socket" table with the "mnl_socket_functions[]"
  * functions and the MNL_USERDATA element
  */
@@ -265,8 +256,7 @@ static int netlink_socket(lua_State *L)
 					groups,strerror(errn));
 	}
 
-	luaL_newlib(L, mnl_socket_functions);
-
+	lua_newtable(L);
 	lua_pushliteral(L, MNL_USERDATA);
 	userdata = lua_newuserdata(L, sizeof *userdata);
 	userdata->nl = nl;
@@ -275,6 +265,7 @@ static int netlink_socket(lua_State *L)
 	luaL_setmetatable(L, MNL_META_NAME);
 
 	lua_settable(L, -3);
+	luaL_setmetatable(L, MNL_META_CLASS);
 
 	return 1;
 }
@@ -311,12 +302,26 @@ static const struct luaL_Reg netlink_functions[] = {
 	{ NULL, NULL }
 };
 
+static const struct luaL_Reg mnl_socket_functions[] = {
+	{ "fd", nlfunc_fd },
+	{ "event", nlfunc_event },
+	{ "query", nlfunc_query },
+	{ "groups", nlfunc_groups },
+	{ "poll", nlfunc_poll },
+	{ NULL, NULL }
+};
+
 EXPORT_SYMBOL(luaopen_netlink);
 int luaopen_netlink(lua_State *L)
 {
 	if (luaL_newmetatable(L, MNL_META_NAME)) {
 		lua_pushliteral(L, "__gc"); \
 		lua_pushcfunction(L, userdata_gc); \
+		lua_settable(L, -3);
+	}
+	if (luaL_newmetatable(L, MNL_META_CLASS)) {
+		lua_pushliteral(L, "__index"); \
+		luaL_newlib(L, mnl_socket_functions);
 		lua_settable(L, -3);
 	}
 	lua_pop(L,1);

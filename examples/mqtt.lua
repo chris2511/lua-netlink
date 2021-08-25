@@ -5,11 +5,11 @@ mqtt = require"mqtt"
 local x = nl.socket({link = true })
 local n = 0
 
-local client = mqtt.client({
+local client = mqtt.client{
 	uri = "localhost",
 	clean = true,
 	id = "netlink",
-})
+}
 
 client:start_connecting()
 local ifaces = {}
