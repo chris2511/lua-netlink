@@ -37,10 +37,7 @@ static int route_cb(const struct nlmsghdr *nlh, struct callback_data *cbd)
 	if (cbd->rtm->rtm_type != RTN_UNICAST)
 		return MNL_CB_STOP;
 
-	lua_pushliteral(cbd->L, "scope");
-	lua_pushinteger(cbd->L, cbd->rtm->rtm_scope);
-	lua_settable(cbd->L, -3);
-
+	push_integer(cbd->L, "scope", cbd->rtm->rtm_scope);
 	return mnl_attr_parse(nlh, sizeof(*cbd->rtm), parse_attr, cbd);
 }
 

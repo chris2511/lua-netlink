@@ -42,9 +42,7 @@ static int data_cb(const struct nlmsghdr *nlh, void *Ldata)
 
 	clock_gettime(CLOCK_MONOTONIC, &tp);
 
-	lua_pushliteral(L, "stamp");
-	lua_pushinteger(L, tp.tv_nsec /(1000*1000) + tp.tv_sec *1000);
-	lua_settable(L, -3);
+	push_integer(L, "stamp", tp.tv_nsec /(1000*1000) + tp.tv_sec *1000);
 
 	for (rtmgrp = &__start_rtmgrp; rtmgrp < &__stop_rtmgrp; rtmgrp++) {
 		const char *eventtype;

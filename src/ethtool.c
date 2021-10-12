@@ -69,17 +69,9 @@ int netlink_ethtool(lua_State *L)
 	}
 	close(fd);
 
-	lua_pushliteral(L, "speed");
-	lua_pushinteger(L, ethtool_cmd_speed(&req));
-	lua_settable(L, -3);
-
-	lua_pushliteral(L, "duplex");
-	lua_pushstring(L, req.duplex ? "full" : "half");
-	lua_settable(L, -3);
-
-	lua_pushliteral(L, "autoneg");
-	lua_pushboolean(L, req.autoneg);
-	lua_settable(L, -3);
+	push_integer(L, "speed", ethtool_cmd_speed(&req));
+	push_string(L, "duplex", req.duplex ? "full" : "half");
+	push_bool(L, "autoneg", req.autoneg);
 
 	return 1;
 }

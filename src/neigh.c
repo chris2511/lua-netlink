@@ -26,9 +26,7 @@ static int parse_attr(const struct nlattr *attr, void *data)
 	case NDA_PROBES:
 		if (mnl_attr_validate(attr, MNL_TYPE_U32) < 0)
 			return MNL_CB_ERROR;
-		lua_pushliteral(cbd->L, "probes");
-		lua_pushinteger(cbd->L, mnl_attr_get_u32(attr));
-		lua_settable(cbd->L, -3);
+		push_integer(cbd->L, "probes", mnl_attr_get_u32(attr));
 	}
 	return MNL_CB_OK;
 }
@@ -46,14 +44,8 @@ static int neigh_cb(const struct nlmsghdr *nlh, struct callback_data *cbd)
 	default:
 		return MNL_CB_STOP;
 	}
-
-	lua_pushliteral(cbd->L, "index");
-	lua_pushinteger(cbd->L, cbd->ndm->ndm_ifindex);
-	lua_settable(cbd->L, -3);
-
-	lua_pushliteral(cbd->L, "state");
-	lua_pushstring(cbd->L, nud_state);
-	lua_settable(cbd->L, -3);
+	push_integer(cbd->L, "index", cbd->ndm->ndm_ifindex);
+	push_string(cbd->L, "state", nud_state);
 
 	return mnl_attr_parse(nlh, sizeof(*cbd->ndm), parse_attr, cbd);
 }

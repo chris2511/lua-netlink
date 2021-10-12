@@ -15,14 +15,31 @@
 
 #include "netlink.h"
 
+void push_string(lua_State *L, const char *which, const char *value)
+{
+	lua_pushstring(L, which);
+	lua_pushstring(L, value);
+	lua_settable(L, -3);
+}
+
+void push_integer(lua_State *L, const char *which, int value)
+{
+	lua_pushstring(L, which);
+	lua_pushinteger(L, value);
+	lua_settable(L, -3);
+}
+
+void push_bool(lua_State *L, const char *which, int value)
+{
+	push_string(L, which, value ? "yes" : "no");
+}
+
 void push_ip(lua_State *L, const char *which, int family,
 			const struct nlattr *attr)
 {
 	char buf[INET6_ADDRSTRLEN];
 	inet_ntop(family, mnl_attr_get_payload(attr), buf, sizeof buf);
-	lua_pushstring(L, which);
-	lua_pushstring(L, buf);
-	lua_settable(L, -3);
+	push_string(L, which, buf);
 }
 
 void push_cidr(lua_State *L, const char *which, int family,
@@ -47,9 +64,7 @@ void push_hwaddr(lua_State *L, const char *which,
 		if (i + 1 != max)
 			*p++ = ':';
 	}
-	lua_pushstring(L, which);
-	lua_pushstring(L, addr);
-	lua_settable(L, -3);
+	push_string(L, which, addr);
 }
 
 int netlink_initial(struct mnl_socket *nl, lua_State *L, int type)
