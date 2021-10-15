@@ -1,6 +1,8 @@
-nl = require "netlink"
-I = require"inspect".inspect
-mqtt = require"mqtt"
+#!/usr/bin/env lua
+
+local nl = require "netlink"
+local I = require"inspect".inspect
+local mqtt = require"mqtt"
 
 local x = nl.socket({link = true })
 local n = 0
@@ -12,9 +14,8 @@ local client = mqtt.client{
 }
 
 client:start_connecting()
-local ifaces = {}
 
-function link_event(links)
+local function link_event(links)
   print(I(links))
   for _,link in pairs(links) do
     if not link.name then return end
