@@ -21,9 +21,7 @@ static int parse_attr(const struct nlattr *attr, void *data)
 
 	switch (type) {
 	case IFLA_MTU:
-		if (mnl_attr_validate(attr, MNL_TYPE_U32) < 0)
-			return MNL_CB_ERROR;
-		push_integer(L, "mtu", mnl_attr_get_u32(attr));
+		push_int_attr(L, "mtu", attr);
 		break;
 	case IFLA_IFNAME:
 		if (mnl_attr_validate(attr, MNL_TYPE_STRING) < 0)
@@ -31,8 +29,6 @@ static int parse_attr(const struct nlattr *attr, void *data)
 		push_string(L, "name", mnl_attr_get_str(attr));
 		break;
 	case IFLA_ADDRESS: {
-		if (mnl_attr_validate(attr, MNL_TYPE_BINARY) < 0)
-			return MNL_CB_ERROR;
 		push_hwaddr(cbd->L, "hwaddr", attr);
 		break;
 		}

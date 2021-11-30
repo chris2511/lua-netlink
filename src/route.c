@@ -28,6 +28,15 @@ static int parse_attr(const struct nlattr *attr, void *data)
 	case RTA_GATEWAY:
 		push_ip(cbd->L, "gateway", cbd->rtm->rtm_family, attr);
 		break;
+	case RTA_PREFSRC:
+		push_ip(cbd->L, "prefsrc", cbd->rtm->rtm_family, attr);
+		break;
+	case RTA_OIF:
+		push_int_attr(cbd->L, "index", attr);
+		break;
+	case RTA_PRIORITY:
+		push_int_attr(cbd->L, "metric", attr);
+		break;
 	}
 	return MNL_CB_OK;
 }

@@ -8,6 +8,7 @@
 
 #include <lua.h>
 #include <lualib.h>
+#include <lauxlib.h>
 
 #include <arpa/inet.h>
 #include <libmnl/libmnl.h>
@@ -27,6 +28,24 @@ void push_integer(lua_State *L, const char *which, lua_Integer value)
 	lua_pushstring(L, which);
 	lua_pushinteger(L, value);
 	lua_settable(L, -3);
+}
+
+void push_int_attr(lua_State *L, const char *which, const struct nlattr *attr)
+{
+	void *payload = mnl_attr_get_payload(attr);
+	int value = 0;
+
+	switch (mnl_attr_get_type(attr)) {
+	case NL_ATTR_TYPE_S8:  value = *(int8_t*)payload; break;
+	case NL_ATTR_TYPE_S16: value = *(int16_t*)payload; break;
+	case NL_ATTR_TYPE_S32: value = *(int32_t*)payload; break;
+	case NL_ATTR_TYPE_U8:  value = *(uint8_t*)payload; break;
+	case NL_ATTR_TYPE_U16: value = *(uint16_t*)payload; break;
+	case NL_ATTR_TYPE_U32: value = *(uint32_t*)payload; break;
+	default: luaL_error(L, "Unexpected NL_ATTR_TYPE: %d",
+				(int)mnl_attr_get_type(attr));
+	}
+	push_integer(L, which, value);
 }
 
 void push_bool(lua_State *L, const char *which, int value)
@@ -59,6 +78,9 @@ void push_hwaddr(lua_State *L, const char *which,
 	char addr[20], *p = addr;
 	int i, max = mnl_attr_get_payload_len(attr);
 
+	if (mnl_attr_validate(attr, MNL_TYPE_BINARY) < 0)
+		luaL_error(L, "Invalid mnl_attr_type %d for hardware address",
+				(int)mnl_attr_get_type(attr));
 	for (i = 0; i < max; i++) {
 		p += sprintf(p, "%02x", hwaddr[i]);
 		if (i + 1 != max)
