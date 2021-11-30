@@ -59,7 +59,7 @@ int luaopen_netlink(lua_State *L);
 int netlink_ethtool(lua_State *L);
 
 void push_string(lua_State *L, const char *which, const char *value);
-void push_integer(lua_State *L, const char *which, int value);
+void push_integer(lua_State *L, const char *which, lua_Integer value);
 void push_bool(lua_State *L, const char *which, int value);
 
 void push_ip(lua_State *L, const char *which, int family,

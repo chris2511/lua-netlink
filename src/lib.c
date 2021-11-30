@@ -22,7 +22,7 @@ void push_string(lua_State *L, const char *which, const char *value)
 	lua_settable(L, -3);
 }
 
-void push_integer(lua_State *L, const char *which, int value)
+void push_integer(lua_State *L, const char *which, lua_Integer value)
 {
 	lua_pushstring(L, which);
 	lua_pushinteger(L, value);
