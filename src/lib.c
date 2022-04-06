@@ -35,15 +35,12 @@ void push_int_attr(lua_State *L, const char *which, const struct nlattr *attr)
 	void *payload = mnl_attr_get_payload(attr);
 	int value = 0;
 
-	switch (mnl_attr_get_type(attr)) {
-	case NL_ATTR_TYPE_S8:  value = *(int8_t*)payload; break;
-	case NL_ATTR_TYPE_S16: value = *(int16_t*)payload; break;
-	case NL_ATTR_TYPE_S32: value = *(int32_t*)payload; break;
-	case NL_ATTR_TYPE_U8:  value = *(uint8_t*)payload; break;
-	case NL_ATTR_TYPE_U16: value = *(uint16_t*)payload; break;
-	case NL_ATTR_TYPE_U32: value = *(uint32_t*)payload; break;
-	default: luaL_error(L, "Unexpected NL_ATTR_TYPE: %d",
-				(int)mnl_attr_get_type(attr));
+	switch (mnl_attr_get_payload_len(attr)) {
+	case 1: value = *(int8_t*)payload; break;
+	case 2: value = *(int16_t*)payload; break;
+	case 4: value = *(int32_t*)payload; break;
+	default: luaL_error(L, "Unhandled payload length: %d",
+				(int)mnl_attr_get_payload_len(attr));
 	}
 	push_integer(L, which, value);
 }
