@@ -61,7 +61,7 @@ int netlink_ethtool(lua_State *L);
 void push_string(lua_State *L, const char *which, const char *value);
 void push_integer(lua_State *L, const char *which, lua_Integer value);
 void push_bool(lua_State *L, const char *which, int value);
-void push_int_attr(lua_State *L, const char *which, const struct nlattr *attr);
+void push_u32_attr(lua_State *L, const char *which, const struct nlattr *attr);
 void push_ip(lua_State *L, const char *which, int family,
 		const struct nlattr *attr);
 void push_cidr(lua_State *L, const char *which, int family,

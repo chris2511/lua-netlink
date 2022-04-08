@@ -32,10 +32,10 @@ static int parse_attr(const struct nlattr *attr, void *data)
 		push_ip(cbd->L, "prefsrc", cbd->rtm->rtm_family, attr);
 		break;
 	case RTA_OIF:
-		push_int_attr(cbd->L, "index", attr);
+		push_u32_attr(cbd->L, "index", attr);
 		break;
 	case RTA_PRIORITY:
-		push_int_attr(cbd->L, "metric", attr);
+		push_u32_attr(cbd->L, "metric", attr);
 		break;
 	}
 	return MNL_CB_OK;

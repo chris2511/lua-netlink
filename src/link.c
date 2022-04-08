@@ -21,7 +21,7 @@ static int parse_attr(const struct nlattr *attr, void *data)
 
 	switch (type) {
 	case IFLA_MTU:
-		push_int_attr(L, "mtu", attr);
+		push_u32_attr(L, "mtu", attr);
 		break;
 	case IFLA_IFNAME:
 		if (mnl_attr_validate(attr, MNL_TYPE_STRING) < 0)
