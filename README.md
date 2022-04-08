@@ -118,6 +118,8 @@ All returned tables have the following entries:
  - scope: Sort of distance to the destination.
  - gateway: Gateway IP (For scope 0)
  - dst: Network (For scope 253)
+ - prefsrc: Preferred source address to use when sending over this route
+ - metric: Route metric
 
 #### Event "newneigh", and "delneigh"
 
