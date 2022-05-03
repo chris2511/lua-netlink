@@ -1,0 +1,16 @@
+name: CppCheck
+
+on: [ push, pull_request ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: cppcheck
+      uses: deep5050/cppcheck-action@main
