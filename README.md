@@ -1,8 +1,12 @@
+[![CppCheck](https://github.com/chris2511/lua-netlink/actions/workflows/cppcheck.yml/badge.svg)](https://github.com/chris2511/lua-netlink/actions/workflows/cppcheck.yml)
+[![Luacheck](https://github.com/chris2511/lua-netlink/actions/workflows/luacheck.yaml/badge.svg)](https://github.com/chris2511/lua-netlink/actions/workflows/luacheck.yaml)
+[![CMake](https://github.com/chris2511/lua-netlink/actions/workflows/cmake.yml/badge.svg)](https://github.com/chris2511/lua-netlink/actions/workflows/cmake.yml)
+
 # Netlink Lua
 
 The lua library `netlink.so` uses the netlink socket to acquire
 network state information about interface links, IP addresses, routes
-and address resolutions
+and address resolutions.
 
 It additionally allows to listen for netlink events and receive changes.
 Usage examples can be found in the examples directory.
