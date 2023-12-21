@@ -28,7 +28,8 @@ int netlink_ethtool(lua_State *L)
 	struct ifreq ifr;
 	const char *ifname;
 	size_t len;
-	int fd, speed;
+	int fd;
+	uint32_t speed;
 
 	if (lua_type(L, -1) == LUA_TSTRING) {
 		/* Replace string with interface name by table with
@@ -70,7 +71,7 @@ int netlink_ethtool(lua_State *L)
 	close(fd);
 
 	speed = ethtool_cmd_speed(&req);
-	push_integer(L, "speed", speed == -1 ? 0 : speed);
+	push_integer(L, "speed", speed == UINT32_MAX ? 0 : speed);
 	push_string(L, "duplex", req.duplex ? "full" : "half");
 	push_bool(L, "autoneg", req.autoneg);
 
