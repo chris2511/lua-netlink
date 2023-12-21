@@ -23,6 +23,7 @@ struct ifaddrmsg;
 struct ndmsg;
 struct nlattr;
 struct nlmsghdr;
+struct mnl_socket;
 
 struct callback_data {
 	lua_State *L;
@@ -33,11 +34,6 @@ struct callback_data {
 		struct ndmsg *ndm;
 		void *nl_payload;
 	};
-};
-
-struct userdata {
-	struct mnl_socket *nl;
-	int groups;
 };
 
 struct rtmgrp {

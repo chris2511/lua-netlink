@@ -20,6 +20,11 @@
 
 #include "netlink.h"
 
+struct userdata {
+	struct mnl_socket *nl;
+	int groups;
+};
+
 /* Callback function for each netlink message
  * Iterates over all "struct rtmgrp" and checks whether
  * the "nlmsg_type" is their "new" or "del" type and calls
