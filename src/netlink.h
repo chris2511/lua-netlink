@@ -8,10 +8,6 @@
 
 #include <lua.h>
 
-#define MNL_META_NAME "_mnl_meta_table"
-#define MNL_META_CLASS "_mnl_meta_class"
-#define MNL_USERDATA "_mnl_userdata"
-
 #define TRACE printf("STACK[%d]: %d, top: %s\n", __LINE__,\
 			lua_gettop(L), luaL_typename(L, -1));
 

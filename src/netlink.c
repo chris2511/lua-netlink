@@ -61,7 +61,7 @@ static int data_cb(const struct nlmsghdr *nlh, void *Ldata)
 
 		lua_pushliteral(L, "event");
 		lua_pushfstring(L, "%s%s", eventtype, rtmgrp->name);
-		lua_settable(L, -3);
+		lua_rawset(L, -3);
 
 		ret = rtmgrp->callback(nlh, &cbd);
 		break;
@@ -120,21 +120,10 @@ static int groups_from_set(lua_State *L, int idx)
 }
 
 /* The "netlink table" is expected as first argument (by calling nl:...)
- * it must contain a MNL_USERDATA element, which is expected to be a
- * "struct userdata"
  */
 static struct userdata *get_userdata(lua_State *L)
 {
-	struct userdata *userdata;
-
-	lua_pushstring(L, MNL_USERDATA);
-	lua_gettable(L, 1);
-	userdata = lua_touserdata(L, -1);
-	lua_pop(L, 1);
-	if (!userdata)
-		luaL_error(L, "Invalid netlink userdata: %s",
-					luaL_typename(L, -1));
-	return userdata;
+	return luaL_checkudata(L, 1, "mnl.netlink");
 }
 
 /* Returns an array of registered rtmgrp members like
@@ -225,8 +214,8 @@ static int nlfunc_poll(lua_State *L)
 	return 1;
 }
 
-/* Create a new "netlink socket" table with the "mnl_socket_functions[]"
- * functions and the MNL_USERDATA element
+/* Create a new "netlink socket" userdata with the "mnl_socket_functions[]"
+ * as methods via metatable
  */
 static int netlink_socket(lua_State *L)
 {
@@ -257,16 +246,11 @@ static int netlink_socket(lua_State *L)
 					groups,strerror(errn));
 	}
 
-	lua_newtable(L);
-	lua_pushliteral(L, MNL_USERDATA);
 	userdata = lua_newuserdata(L, sizeof *userdata);
 	userdata->nl = nl;
 	userdata->groups = groups;
 	/* The garbage collector closes the mnl file descriptor */
-	luaL_setmetatable(L, MNL_META_NAME);
-
-	lua_settable(L, -3);
-	luaL_setmetatable(L, MNL_META_CLASS);
+	luaL_setmetatable(L, "mnl.netlink");
 
 	return 1;
 }
@@ -315,17 +299,14 @@ static const struct luaL_Reg mnl_socket_functions[] = {
 EXPORT_SYMBOL(luaopen_netlink);
 int luaopen_netlink(lua_State *L)
 {
-	if (luaL_newmetatable(L, MNL_META_NAME)) {
-		lua_pushliteral(L, "__gc"); \
-		lua_pushcfunction(L, userdata_gc); \
-		lua_settable(L, -3);
-	}
-	if (luaL_newmetatable(L, MNL_META_CLASS)) {
-		lua_pushliteral(L, "__index"); \
+	if (luaL_newmetatable(L, "mnl.netlink")) {
+		lua_pushliteral(L, "__gc");
+		lua_pushcfunction(L, userdata_gc);
+		lua_rawset(L, -3);
+		lua_pushliteral(L, "__index");
 		luaL_newlib(L, mnl_socket_functions);
-		lua_settable(L, -3);
+		lua_rawset(L, -3);
 	}
-	lua_pop(L,1);
 	luaL_newlib(L, netlink_functions);
 	return 1;
 }
