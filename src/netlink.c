@@ -89,8 +89,6 @@ int receive(struct mnl_socket *nl, lua_State *L)
 			break;
 		ret = mnl_cb_run(buf, ret, 0, 0, data_cb, L);
 		if (ret == -1) {
-			printf("mnl_cb_run(): %d BUSY %d AGAIN %d\n",
-				ret, EBUSY, EAGAIN);
 			if  (errno == EBUSY || errno == EAGAIN)
 				ret = MNL_CB_STOP;
 			else
