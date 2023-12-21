@@ -305,6 +305,10 @@ int luaopen_netlink(lua_State *L)
 		lua_rawset(L, -3);
 		lua_pushliteral(L, "__index");
 		luaL_newlib(L, mnl_socket_functions);
+		lua_pushliteral(L, "version");
+		lua_pushliteral(L, VERSION);
+		lua_rawset(L, -3);
+
 		lua_rawset(L, -3);
 	}
 	luaL_newlib(L, netlink_functions);

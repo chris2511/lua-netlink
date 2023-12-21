@@ -1,7 +1,9 @@
 
 cmake_minimum_required(VERSION 3.13.0)
 
-project(netlink)
+project(netlink VERSION 1.0.0
+	DESCRIPTION "Access network information via netlink"
+)
 
 include(FindLua)
 # minimalistic netlink library
@@ -9,7 +11,7 @@ include(FindLua)
 find_library(Mnl_libs mnl)
 find_path(Mnl_header libmnl/libmnl.h)
 
-add_compile_options(-Wall -Wextra -pedantic -Werror -fvisibility=hidden -Waggregate-return -Wmissing-prototypes -Wshadow -Wstrict-prototypes)
+add_compile_options(-Wall -Wextra -pedantic -Werror -fvisibility=hidden -Waggregate-return -Wmissing-prototypes -Wshadow -Wstrict-prototypes -DVERSION="${PROJECT_VERSION}")
 set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_SHARED_LIBRARY_PREFIX "")
