@@ -29,6 +29,9 @@ static int ifaddr_cb(const struct nlmsghdr *nlh, struct callback_data *cbd)
 	push_integer(cbd->L, "index", cbd->ifa->ifa_index);
 	push_string(cbd->L, "family", cbd->ifa->ifa_family == AF_INET ?
 					"AF_INET" : "AF_INET6");
+	push_integer(cbd->L, "prefixlen", cbd->ifa->ifa_prefixlen);
+	push_integer(cbd->L, "scope", cbd->ifa->ifa_scope);
+	push_integer(cbd->L, "flags", cbd->ifa->ifa_flags);
 
 	return mnl_attr_parse(nlh, sizeof(*cbd->ifa), parse_attr, cbd);
 }

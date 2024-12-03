@@ -116,6 +116,9 @@ All returned tables have the following entries:
 
  - family: AF\_INET or AF\_INET6
  - ip: IP address
+ - prefixlen: IP Netmask
+ - scope: Address scope
+ - flags: Address flags
 
 #### Event "newroute" and "delroute"
 
