@@ -1,5 +1,5 @@
 package = "netlink"
-version = "1.1.0-1"
+version = "1.1.0-2"
 source = {
   url = "git://github.com/chris2511/lua-netlink",
   tag = "v1.1.0"
@@ -15,7 +15,7 @@ description = {
   license = "MIT"
 }
 dependencies = {
-  "lua >= 5.1, <= 5.4"
+  "lua >= 5.1, <= 5.5"
 }
 -- Then netlink interface is linux specific
 supported_platforms = { "linux" }
