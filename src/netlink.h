@@ -50,6 +50,8 @@ extern struct rtmgrp __stop_rtmgrp;
 int luaopen_netlink(lua_State *L);
 int netlink_ethtool(lua_State *L);
 
+const char *af_to_str(int af);
+
 void push_string(lua_State *L, const char *which, const char *value);
 void push_integer(lua_State *L, const char *which, lua_Integer value);
 void push_bool(lua_State *L, const char *which, int value);
