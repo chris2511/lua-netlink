@@ -106,6 +106,7 @@ All returned tables have the following entries:
 
 #### Event "newlink" and "dellink"
 
+ - family: AF\_...
  - hwaddr: The MAC address
  - mtu: Maximum Transfer Unit
  - name: Interface name

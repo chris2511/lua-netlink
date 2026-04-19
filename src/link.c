@@ -39,6 +39,7 @@ static int parse_attr(const struct nlattr *attr, void *data)
 static int link_cb(const struct nlmsghdr *nlh, struct callback_data *cbd)
 {
 	push_integer(cbd->L, "index", cbd->ifm->ifi_index);
+	push_string(cbd->L, "family", af_to_str(cbd->ifm->ifi_family));
 	push_bool(cbd->L, "running", cbd->ifm->ifi_flags & IFF_RUNNING);
 	push_bool(cbd->L, "up", cbd->ifm->ifi_flags & IFF_UP);
 

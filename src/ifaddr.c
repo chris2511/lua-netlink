@@ -27,8 +27,7 @@ static int parse_attr(const struct nlattr *attr, void *data)
 static int ifaddr_cb(const struct nlmsghdr *nlh, struct callback_data *cbd)
 {
 	push_integer(cbd->L, "index", cbd->ifa->ifa_index);
-	push_string(cbd->L, "family", cbd->ifa->ifa_family == AF_INET ?
-					"AF_INET" : "AF_INET6");
+	push_string(cbd->L, "family", af_to_str(cbd->ifa->ifa_family));
 	push_integer(cbd->L, "prefixlen", cbd->ifa->ifa_prefixlen);
 	push_integer(cbd->L, "scope", cbd->ifa->ifa_scope);
 	push_integer(cbd->L, "flags", cbd->ifa->ifa_flags);
