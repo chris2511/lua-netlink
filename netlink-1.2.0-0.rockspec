@@ -1,8 +1,8 @@
 package = "netlink"
-version = "1.1.0-2"
+version = "1.2.0-0"
 source = {
   url = "git://github.com/chris2511/lua-netlink",
-  tag = "v1.1.0"
+  tag = "v1.2.0"
 }
 description = {
   summary = "Netlink event library",
