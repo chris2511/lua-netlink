@@ -29,7 +29,7 @@ build = {
   type = "builtin",
   modules = {
     netlink = {
-      defines = { 'VERSION="1.1.0"' },
+      defines = { 'VERSION="1.2.0"' },
       sources = { "src/netlink.c", "src/lib.c", "src/ethtool.c",
                   "src/link.c", "src/ifaddr.c", "src/route.c",
                   "src/neigh.c" },
