@@ -150,7 +150,8 @@ static int data_cb(const struct nlmsghdr *nlh, void *Ldata)
 	top = lua_gettop(L);
 	lua_newtable(L);
 
-	clock_gettime(CLOCK_MONOTONIC, &tp);
+	if(clock_gettime(CLOCK_MONOTONIC, &tp) < 0)
+		return luaL_error(L, "clock_gettime(): %s", strerror(errno));
 
 	push_integer(L, "stamp", tp.tv_nsec /(1000*1000) + tp.tv_sec *1000);
 
@@ -180,8 +181,8 @@ static int data_cb(const struct nlmsghdr *nlh, void *Ldata)
 }
 
 /* Receive a netlink message in non-blocking mode.
- * It stops on "EBUSY" and "EAGAIN" or if the callback returns MNL_CB_STOP.
- * In case of any other I/O error a lua error is thrown
+ * It stops on "EAGAIN" and "EWOULDBLOCK" or if the callback returns MNL_CB_STOP.
+ * In case of any other I/O error a lua error is thrown.
  */
 int receive(struct mnl_socket *nl, lua_State *L)
 {
@@ -190,15 +191,19 @@ int receive(struct mnl_socket *nl, lua_State *L)
 
 	do {
 		ret = mnl_socket_recvfrom(nl, buf, sizeof buf);
-		if (ret == -1)
-			break;
-		ret = mnl_cb_run(buf, ret, 0, 0, data_cb, L);
 		if (ret == -1) {
-			if  (errno == EBUSY || errno == EAGAIN)
+			if  (errno == EAGAIN || errno == EWOULDBLOCK)
+				break;
+			else
+				return luaL_error(L, "mnl_socket_recvfrom(): %s", strerror(errno));
+		}
+
+		ret = mnl_cb_run(buf, ret, 0, 0, data_cb, L);
+		if (ret == MNL_CB_ERROR) {
+			if  (errno == EAGAIN || errno == EWOULDBLOCK)
 				ret = MNL_CB_STOP;
 			else
-				return luaL_error(L, "mnl_cb_run(): %s",
-							strerror(errno));
+				return luaL_error(L, "mnl_cb_run(): %s", strerror(errno));
 		}
 	} while (ret == MNL_CB_OK);
 
