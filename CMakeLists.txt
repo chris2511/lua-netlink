@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.13.0)
 
-project(netlink VERSION 1.2.0
+project(netlink VERSION 1.2.1
 	DESCRIPTION "Access network information via netlink"
 )
 
