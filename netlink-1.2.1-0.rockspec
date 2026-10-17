@@ -1,8 +1,8 @@
 package = "netlink"
-version = "1.2.0-0"
+version = "1.2.1-0"
 source = {
   url = "git://github.com/chris2511/lua-netlink",
-  tag = "v1.2.0"
+  tag = "v1.2.1"
 }
 description = {
   summary = "Netlink event library",
@@ -29,7 +29,7 @@ build = {
   type = "builtin",
   modules = {
     netlink = {
-      defines = { 'VERSION="1.2.0"' },
+      defines = { 'VERSION="1.2.1"' },
       sources = { "src/netlink.c", "src/lib.c", "src/ethtool.c",
                   "src/link.c", "src/ifaddr.c", "src/route.c",
                   "src/neigh.c" },
