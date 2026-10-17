@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #include <lua.h>
 #include <lualib.h>
@@ -92,7 +93,7 @@ int netlink_initial(struct mnl_socket *nl, lua_State *L, int type)
 	memcpy(dst, &rt, sizeof rt);
 
 	if (mnl_socket_sendto(nl, nlh, nlh->nlmsg_len) < 0)
-		return -1;
+		return luaL_error(L, "mnl_socket_sendto(): %s", strerror(errno));
 
 	return receive(nl, L);
 }
