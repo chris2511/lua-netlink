@@ -124,6 +124,7 @@ All returned tables have the following entries:
 #### Event "newroute" and "delroute"
 
  - scope: Sort of distance to the destination.
+ - protocol: Routing protocol that installed the route (RTPROT\_...)
  - gateway: Gateway IP (For scope 0)
  - dst: Network (For scope 253)
  - prefsrc: Preferred source address to use when sending over this route

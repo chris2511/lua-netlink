@@ -47,6 +47,7 @@ static int route_cb(const struct nlmsghdr *nlh, struct callback_data *cbd)
 		return MNL_CB_STOP;
 
 	push_integer(cbd->L, "scope", cbd->rtm->rtm_scope);
+	push_integer(cbd->L, "protocol", cbd->rtm->rtm_protocol);
 	return mnl_attr_parse(nlh, sizeof(*cbd->rtm), parse_attr, cbd);
 }
 
